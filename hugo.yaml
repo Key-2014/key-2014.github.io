@@ -1,0 +1,43 @@
+baseURL: https://Key-2014.github.io/
+title: Key's Sandbox
+theme: PaperMod
+languageCode: en-us
+enableEmoji: true
+mainsections: ["post"]
+
+menu:
+  main:
+    - name: "About Me"
+      url: /aboutme
+      weight: 1
+    - name: "Posts"
+      url: /post/
+      weight: 3
+
+params:
+  env: production
+  description: "Writing about tech articles and daily events."
+  author: "Key-2014"
+  defaultTheme: "auto"
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowRssButtonInSectionTermList: true
+  ShowAllPagesInArchive: true
+  ShowPageNums: true
+  ShowToc: true
+  homeInfoParams:
+    Title: "*Heya!*"
+    Content: |
+      ![](/img/efo.png)
+  assets:
+#    favicon: "/favicon_io/favicon.ico"
+#    favicon16x16: "/favicon_io/favicon-16x16.png"
+#    favicon32x32: "/favicon_io/favicon-32x32.png"
+#    apple_touch_icon: "/favicon_io/apple-touch-icon.png"
+#    safari_pinned_tab: "/favicon_io/safari-pinned-tab.svg"
+  socialIcons:
+    - name: github
+      url: "https://github.com/Efo-YU"
+    - name: email
+      url: "mailto:goodev140@gmail.com"

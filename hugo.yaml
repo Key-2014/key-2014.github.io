@@ -27,8 +27,8 @@ params:
   ShowPageNums: true
   ShowToc: true
   homeInfoParams:
-    Title: "*Heya!*"
-    Content: |
+    Title: "*Hello!"
+#    Content: |
       ![](/img/efo.png)
   assets:
 #    favicon: "/favicon_io/favicon.ico"
@@ -38,6 +38,6 @@ params:
 #    safari_pinned_tab: "/favicon_io/safari-pinned-tab.svg"
   socialIcons:
     - name: github
-      url: "https://github.com/Efo-YU"
+      url: "https://github.com/Key-2014"
     - name: email
-      url: "mailto:goodev140@gmail.com"
+      url: "keionuma1214@gmail.com"

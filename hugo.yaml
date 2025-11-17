@@ -29,7 +29,7 @@ params:
   homeInfoParams:
     Title: "*Hello!"
 #    Content: |
-      ![](/img/efo.png)
+#      ![](/img/efo.png)
   assets:
 #    favicon: "/favicon_io/favicon.ico"
 #    favicon16x16: "/favicon_io/favicon-16x16.png"

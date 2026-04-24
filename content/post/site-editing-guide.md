@@ -1,31 +1,31 @@
 ---
 date: '2026-04-07'
 draft: false
-title: 'ページの編集・カスタマイズガイド'
-description: '新しい記事の作成方法、Markdown の書き方、画像の追加、メニューのカスタマイズ、テーマの変更まで、サイトを自分で編集するための完全ガイドです。'
-tags: ['Hugo', 'PaperMod', 'Markdown', 'カスタマイズ', 'ガイド']
+title: 'Page Editing and Customization Guide'
+description: 'A complete guide to editing the site yourself, including how to create new articles, write Markdown, add images, customize menus, and override theme styles.'
+tags: ['Hugo', 'PaperMod', 'Markdown', 'Customization', 'Guide']
 categories: ['Tech']
 ShowToc: true
 TocOpen: true
 ---
 
-## はじめに
+## Introduction
 
-このページでは、**Key-2014.github.io** に新しい記事を追加したり、既存のページを編集したりする方法を解説します。
+This page explains how to add new articles and edit existing pages on **Key-2014.github.io**.
 
-前提知識として「[Key-2014.github.io の作り方と仕組み](/post/site-architecture-guide/)」を読んでおくとスムーズです。
+It is recommended to read the "[Site Architecture and Deployment Guide](/post/site-architecture-guide/)" beforehand as prerequisite knowledge.
 
 ---
 
-## 新しい記事を作成する
+## Creating a New Article
 
-### 方法 1: Hugo コマンドを使う（推奨）
+### Method 1: Using the Hugo Command (Recommended)
 
 ```bash
 hugo new content/post/my-new-article.md
 ```
 
-`archetypes/default.md` をテンプレートとして、以下のような Front Matter 付きファイルが自動生成されます：
+This automatically generates a file with Front Matter based on the `archetypes/default.md` template:
 
 ```markdown
 ---
@@ -35,106 +35,106 @@ title: 'My New Article'
 ---
 ```
 
-### 方法 2: 手動でファイルを作成する
+### Method 2: Creating the File Manually
 
-`content/post/` ディレクトリに `.md` ファイルを直接作成しても OK です。その場合、以下の Front Matter を手書きします。
+You can also directly create a `.md` file in the `content/post/` directory. If you do, you'll need to manually write the Front Matter at the top.
 
 ---
 
-## Front Matter（記事のメタ情報）
+## Front Matter (Article Metadata)
 
-すべての記事ファイルの先頭には **Front Matter** と呼ばれるメタ情報ブロックを記述します。これは `---` で囲まれた YAML 形式のデータです。
+Every article file must start with a **Front Matter** block. This is a YAML-formatted data block enclosed by `---`.
 
-### 基本的な Front Matter
+### Basic Front Matter Example
 
 ```yaml
 ---
 date: '2026-04-07'
 draft: false
-title: '記事のタイトル'
-description: '検索結果やSNSシェア時に表示される説明文'
-tags: ['Hugo', 'ガイド']
+title: 'Article Title'
+description: 'Description shown in search results and SNS shares'
+tags: ['Hugo', 'Guide']
 categories: ['Tech']
 ShowToc: true
 TocOpen: true
 ---
 ```
 
-### 各項目の説明
+### Field Explanations
 
-| 項目 | 必須 | 型 | 説明 |
+| Field | Required | Type | Description |
 | --- | --- | --- | --- |
-| `date` | ✅ | 文字列 | 記事の日付（`YYYY-MM-DD` 形式） |
-| `draft` | ✅ | 真偽値 | `true` だと本番に表示されない（下書き） |
-| `title` | ✅ | 文字列 | 記事のタイトル |
-| `description` | - | 文字列 | 記事の概要。SEO やカード表示に使われる |
-| `tags` | - | リスト | タグ（記事のキーワード） |
-| `categories` | - | リスト | カテゴリ |
-| `ShowToc` | - | 真偽値 | 目次を表示するか（デフォルト: サイト設定に従う） |
-| `TocOpen` | - | 真偽値 | 目次を開いた状態で表示するか |
-| `weight` | - | 数値 | 記事の並び順（小さいほど先頭） |
-| `cover.image` | - | 文字列 | カバー画像のパス |
+| `date` | ✅ | String | Article date (in `YYYY-MM-DD` format) |
+| `draft` | ✅ | Boolean | If `true`, it won't be displayed in production |
+| `title` | ✅ | String | The title of the article |
+| `description` | - | String | Article summary used for SEO and cards |
+| `tags` | - | List | Tags (keywords for the article) |
+| `categories` | - | List | Categories |
+| `ShowToc` | - | Boolean | Whether to show the Table of Contents |
+| `TocOpen` | - | Boolean | Whether to open the ToC by default |
+| `weight` | - | Number | Ordering weight (smaller numbers appear first) |
+| `cover.image` | - | String | Path to the cover image |
 
-### 下書きについて
+### About Drafts
 
-`draft: true` の記事は：
-- ✅ `hugo server -D` でローカルプレビュー可能
-- ❌ 本番ビルド（GitHub Actions）で除外される
+Articles marked with `draft: true` are:
+- ✅ Viewable locally using `hugo server -D`
+- ❌ Excluded from the production build (GitHub Actions)
 
-記事が完成したら `draft: false` に変更してから push してください。
+When your article is ready, change it to `draft: false` before pushing.
 
 ---
 
-## Markdown の書き方
+## Writing Markdown
 
-Hugo は標準的な Markdown に加えて、いくつかの拡張記法をサポートしています。
+Hugo supports standard Markdown along with several extensions.
 
-### 見出し
-
-```markdown
-## 大見出し（h2）
-### 中見出し（h3）
-#### 小見出し（h4）
-```
-
-> ⚠️ `# h1` 見出しは記事内では使わないでください。`title` が h1 として表示されます。
-
-### テキストの装飾
+### Headings
 
 ```markdown
-**太字**
-*斜体*
-~~取り消し線~~
-`インラインコード`
+## Heading 2 (h2)
+### Heading 3 (h3)
+#### Heading 4 (h4)
 ```
 
-### リスト
+> ⚠️ Do not use `# h1` headings within the article content. The `title` is automatically displayed as the h1.
+
+### Text Formatting
 
 ```markdown
-- 箇条書き 1
-- 箇条書き 2
-  - ネスト
-
-1. 番号付きリスト
-2. 二番目
+**Bold**
+*Italic*
+~~Strikethrough~~
+`Inline code`
 ```
 
-### リンク
+### Lists
 
 ```markdown
-[表示テキスト](https://example.com)
-[サイト内リンク](/post/site-architecture-guide/)
+- Bullet point 1
+- Bullet point 2
+  - Nested point
+
+1. Numbered list
+2. Second item
 ```
 
-### 画像
+### Links
 
 ```markdown
-![代替テキスト](/images/screenshot.png)
+[Display Text](https://example.com)
+[Internal Link](/post/site-architecture-guide/)
 ```
 
-画像ファイルは `static/images/` ディレクトリに配置すると、`/images/` パスでアクセスできます。
+### Images
 
-### コードブロック
+```markdown
+![Alt text](/images/screenshot.png)
+```
+
+By placing an image file in the `static/images/` directory, you can reference it via the `/images/` path.
+
+### Code Blocks
 
 ````markdown
 ```python
@@ -143,32 +143,32 @@ def hello():
 ```
 ````
 
-言語名を指定すると**シンタックスハイライト**が適用されます。PaperMod テーマではコピーボタンも表示されます。
+Specifying a language name applies **syntax highlighting**. The PaperMod theme also adds a copy button automatically.
 
-### テーブル
+### Tables
 
 ```markdown
-| 列 1 | 列 2 | 列 3 |
+| Column 1 | Column 2 | Column 3 |
 | --- | --- | --- |
-| データ 1 | データ 2 | データ 3 |
+| Data 1 | Data 2 | Data 3 |
 ```
 
-### 引用
+### Blockquotes
 
 ```markdown
-> これは引用文です。
-> 複数行も可能です。
+> This is a blockquote.
+> It can span multiple lines.
 ```
 
-### 区切り線
+### Horizontal Rules
 
 ```markdown
 ---
 ```
 
-### 絵文字
+### Emojis
 
-Hugo では `enableEmoji: true` が設定されているので、絵文字コードが使えます：
+Because `enableEmoji: true` is set in Hugo, you can use emoji shortcodes:
 
 ```markdown
 :rocket: → 🚀
@@ -178,60 +178,60 @@ Hugo では `enableEmoji: true` が設定されているので、絵文字コー
 
 ---
 
-## 画像の追加方法
+## Adding Images
 
-### 1. `static` ディレクトリに配置
+### 1. Placing in the `static` Directory
 
-```
+```text
 static/
 └── images/
     └── my-screenshot.png
 ```
 
-Markdown からの参照：
+Reference in Markdown:
 
 ```markdown
-![スクリーンショット](/images/my-screenshot.png)
+![Screenshot](/images/my-screenshot.png)
 ```
 
-### 2. 記事と同じディレクトリに配置（Page Bundle）
+### 2. Placing Next to the Article (Page Bundles)
 
-ページバンドルを使うと、記事と画像をまとめて管理できます：
+Page bundles allow you to manage the article and its images together:
 
-```
+```text
 content/post/my-article/
-├── index.md       # 記事本体
-└── screenshot.png  # 画像ファイル
+├── index.md       # Article content
+└── screenshot.png  # Image file
 ```
 
-Markdown からは相対パスで参照：
+Reference via relative path in Markdown:
 
 ```markdown
-![スクリーンショット](screenshot.png)
+![Screenshot](screenshot.png)
 ```
 
-### カバー画像を設定する
+### Setting a Cover Image
 
-Front Matter で `cover` を指定すると、記事のカバー画像（アイキャッチ）を表示できます：
+By specifying `cover` in the Front Matter, you can display a cover image (eye-catch) for the article:
 
 ```yaml
 ---
-title: '記事タイトル'
+title: 'Article Title'
 cover:
   image: '/images/cover.png'
-  alt: 'カバー画像の説明'
-  caption: 'キャプション'
+  alt: 'Cover image description'
+  caption: 'Caption text'
   relative: false
 ---
 ```
 
 ---
 
-## メニューの編集
+## Editing the Menu
 
-ナビゲーションメニュー（ヘッダー部分）は `hugo.yaml` の `menu.main` で管理します。
+The navigation menu (in the header) is managed by `menu.main` in `hugo.yaml`.
 
-### メニュー項目を追加する
+### Adding a Menu Item
 
 ```yaml
 menu:
@@ -242,18 +242,18 @@ menu:
     - name: "Posts"
       url: /post/
       weight: 3
-    - name: "Archives"       # ← 追加例
+    - name: "Archives"       # ← Example addition
       url: /archives/
       weight: 5
 ```
 
-- `name`: メニューに表示する名前
-- `url`: リンク先のパス
-- `weight`: 表示順（小さいほど左＝先頭）
+- `name`: Display name in the menu
+- `url`: Path to link to
+- `weight`: Display order (smaller is further left)
 
-### Archives ページの作成例
+### Example: Creating an Archives Page
 
-`content/archives.md` を作成：
+Create `content/archives.md`:
 
 ```markdown
 ---
@@ -266,24 +266,24 @@ summary: "archives"
 
 ---
 
-## サイト設定のカスタマイズ
+## Customizing Site Settings
 
-`hugo.yaml` で変更可能な主な設定を紹介します。
+Here are some of the main settings you can change in `hugo.yaml`.
 
-### サイトタイトルの変更
+### Changing the Site Title
 
 ```yaml
-title: Key's Sandbox    # ← お好みのタイトルに
+title: Key's Sandbox    # ← Change to your desired title
 ```
 
-### 説明文の変更
+### Changing the Description
 
 ```yaml
 params:
   description: "Writing about tech articles and daily events."
 ```
 
-### ソーシャルリンクの編集
+### Editing Social Links
 
 ```yaml
 params:
@@ -292,26 +292,26 @@ params:
       url: "https://github.com/Key-2014"
     - name: email
       url: "keionuma1214@gmail.com"
-    - name: twitter           # ← 追加例
+    - name: twitter           # ← Example addition
       url: "https://twitter.com/your_handle"
 ```
 
-利用可能なアイコン名は [PaperMod のドキュメント](https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-icons/) で確認できます。
+Available icon names can be found in the [PaperMod Documentation](https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-icons/).
 
-### テーマカラーの切替
+### Switching Theme Colors
 
 ```yaml
 params:
   defaultTheme: "auto"    # "auto" / "light" / "dark"
 ```
 
-| 値 | 動作 |
+| Value | Behavior |
 | --- | --- |
-| `auto` | OS のダーク/ライト設定に追従 |
-| `light` | 常にライトモード |
-| `dark` | 常にダークモード |
+| `auto` | Follows the OS dark/light setting |
+| `light` | Always light mode |
+| `dark` | Always dark mode |
 
-### ホームページの設定
+### Home Page Settings
 
 ```yaml
 params:
@@ -323,36 +323,36 @@ params:
 
 ---
 
-## テーマのカスタマイズ
+## Customizing the Theme
 
-PaperMod テーマのレイアウトやスタイルを変更したい場合、**テーマのファイルを直接編集しない**でください。代わりに、プロジェクトルートの `layouts/` ディレクトリにファイルを配置してオーバーライドします。
+If you want to change the layout or styles of the PaperMod theme, **do not edit the theme files directly**. Instead, place files in the `layouts/` directory at the project root to override them.
 
-### レイアウトのオーバーライド
+### Overriding Layouts
 
-Hugo はテーマよりもプロジェクトルートの `layouts/` を優先します。たとえば、記事のフッターをカスタマイズしたい場合：
+Hugo prioritizes the `layouts/` folder in your project root over the theme's templates. For example, to customize the article footer:
 
-1. テーマ内の対象ファイルを見つける（例: `themes/PaperMod/layouts/partials/footer.html`）
-2. 同じパスでプロジェクトにコピー（`layouts/partials/footer.html`）
-3. コピーしたファイルを編集
+1. Find the target file in the theme (e.g., `themes/PaperMod/layouts/partials/footer.html`)
+2. Copy it to the same path in your project (`layouts/partials/footer.html`)
+3. Edit the copied file
 
 ```bash
-# 例: フッターレイアウトをオーバーライド
+# Example: Overriding the footer layout
 mkdir -p layouts/partials
 cp themes/PaperMod/layouts/partials/footer.html layouts/partials/footer.html
 ```
 
-### カスタム CSS の追加
+### Adding Custom CSS
 
-`assets/css/extended/` ディレクトリに CSS ファイルを配置すると、テーマの CSS に追加で読み込まれます：
+By placing CSS files in the `assets/css/extended/` directory, they will be loaded in addition to the theme's CSS:
 
-```
+```text
 assets/
 └── css/
     └── extended/
         └── custom.css
 ```
 
-例: リンクの色を変更する：
+Example: Changing the link color:
 
 ```css
 /* assets/css/extended/custom.css */
@@ -367,129 +367,129 @@ a {
 
 ---
 
-## 記事を公開する手順
+## Steps to Publish an Article
 
-記事を書いてからサイトに反映するまでの手順をまとめます。
+Here is a summary of the workflow from writing an article to publishing it on the site.
 
-### 1. 記事を作成
+### 1. Create the Article
 
 ```bash
 hugo new content/post/my-new-article.md
 ```
 
-### 2. 記事を編集
+### 2. Edit the Article
 
-お好みのエディタ（VS Code 等）で Markdown を編集します。
+Edit the Markdown using your preferred editor (like VS Code).
 
-### 3. ローカルでプレビュー
+### 3. Preview Locally
 
 ```bash
 hugo server -D
 ```
 
-ブラウザで `http://localhost:1313/` にアクセスして確認。
+Check the result by accessing `http://localhost:1313/` in your browser.
 
-### 4. 下書きフラグを解除
+### 4. Remove the Draft Flag
 
 ```yaml
-draft: false    # true → false に変更
+draft: false    # Change from true to false
 ```
 
-### 5. コミット & プッシュ
+### 5. Commit & Push
 
 ```bash
 git add content/post/my-new-article.md
-git commit -m "Add: 新しい記事を追加"
+git commit -m "Add: New article"
 git push origin main
 ```
 
-### 6. 自動デプロイを確認
+### 6. Verify Automated Deployment
 
-GitHub の **Actions** タブでワークフローが成功していることを確認します。数分後にサイトに反映されます。
+Check that the workflow has succeeded in the **Actions** tab on GitHub. It will be reflected on your site within a few minutes.
 
 ---
 
-## よくある操作
+## Common Operations
 
-### 記事を削除する
+### Deleting an Article
 
-対象の `.md` ファイルを削除して push するだけです：
+Simply delete the target `.md` file and push the changes:
 
 ```bash
 rm content/post/old-article.md
 git add -A
-git commit -m "Remove: 古い記事を削除"
+git commit -m "Remove: Old article"
 git push origin main
 ```
 
-### 記事を非公開にする
+### Unpublishing an Article
 
-ファイルを削除せず、Front Matter で `draft: true` に変更する方法もあります：
+Instead of deleting the file, you can change `draft: true` in the Front Matter:
 
 ```yaml
-draft: true   # サイトに表示されなくなる
+draft: true   # It will no longer appear on the site
 ```
 
-### テーマを更新する
+### Updating the Theme
 
 ```bash
 git submodule update --remote themes/PaperMod
 git add themes/PaperMod
-git commit -m "Update: PaperMod テーマを更新"
+git commit -m "Update: PaperMod theme"
 git push origin main
 ```
 
 ---
 
-## トラブルシューティング
+## Troubleshooting
 
-### ローカルで `hugo server` が起動しない
+### `hugo server` Won't Start Locally
 
 ```bash
-# Hugo がインストールされているか確認
+# Check if Hugo is installed
 hugo version
 
-# サブモジュールが初期化されているか確認
+# Check if submodules are initialized
 git submodule status
-# 「-」から始まる行がある場合、サブモジュールが未初期化
+# If a line starts with "-", the submodule is uninitialized
 git submodule init
 git submodule update
 ```
 
-### 記事が表示されない
+### Articles Are Not Showing Up
 
-以下を確認してください：
+Please check the following:
 
-1. **`draft: false` になっているか** — `draft: true` だと本番に表示されません
-2. **日付が未来になっていないか** — Hugo はデフォルトで未来の日付の記事を表示しません
-3. **ファイルが `content/post/` にあるか** — 別のディレクトリに置くと一覧に表示されない場合があります
+1. **Is `draft: false` set?** — Articles with `draft: true` won't show in production.
+2. **Is the date set to the future?** — By default, Hugo won't display articles with a future date.
+3. **Is the file in `content/post/`?** — It might not appear in the post list if placed elsewhere.
 
-### 画像が表示されない
+### Images Are Not Showing Up
 
-- `static/` ディレクトリに配置しているか確認
-- パスが `/images/file.png`（先頭に `/`）になっているか確認
-- ファイル名の大文字小文字が一致しているか確認（Linux はケースセンシティブ）
+- Make sure they are placed in the `static/` directory.
+- Check if the path is `/images/file.png` (starting with `/`).
+- Ensure the filename capitalization matches exactly (Linux is case-sensitive).
 
-### GitHub Actions のビルドが失敗する
+### GitHub Actions Build Fails
 
-1. GitHub の **Actions** タブでエラーログを確認
-2. よくある原因：
-   - Front Matter の YAML 構文エラー（インデントのずれ等）
-   - 壊れたリンクや参照
-   - サブモジュールの取得失敗
+1. Check the error logs in the GitHub **Actions** tab.
+2. Common causes:
+   - YAML syntax errors in Front Matter (e.g., misaligned indentation).
+   - Broken links or references.
+   - Failure to retrieve submodules.
 
 ---
 
-## まとめ
+## Summary
 
-| やりたいこと | 方法 |
+| Goal | How to |
 | --- | --- |
-| 記事を書く | `content/post/` に `.md` ファイルを作成 |
-| プレビュー | `hugo server -D` でローカル確認 |
-| 公開する | `draft: false` にして push |
-| メニュー編集 | `hugo.yaml` の `menu.main` を編集 |
-| スタイル変更 | `assets/css/extended/` にカスタム CSS を配置 |
-| レイアウト変更 | `layouts/` にテーマファイルをコピーして編集 |
-| テーマ更新 | `git submodule update --remote` |
+| Write an article | Create a `.md` file in `content/post/` |
+| Preview | Check locally with `hugo server -D` |
+| Publish | Set `draft: false` and push |
+| Edit menu | Edit `menu.main` in `hugo.yaml` |
+| Change styles | Place custom CSS in `assets/css/extended/` |
+| Change layouts | Copy theme files to `layouts/` and edit |
+| Update theme | Run `git submodule update --remote` |
 
-慣れてしまえば、**Markdown を書いて push するだけ** でサイトが更新できます。ぜひいろいろ試してみてください 🎉
+Once you get used to it, you can update your site just by **writing Markdown and pushing**. Try it out! 🎉

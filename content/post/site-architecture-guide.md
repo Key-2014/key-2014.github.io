@@ -1,60 +1,60 @@
 ---
 date: '2026-04-07'
 draft: false
-title: 'Key-2014.github.io の作り方と仕組み'
-description: 'Hugo + PaperMod テーマ + GitHub Pages を使ったこのサイトの構成、ビルドフロー、デプロイの仕組みを解説します。'
-tags: ['Hugo', 'PaperMod', 'GitHub Pages', 'GitHub Actions', 'サイト構築']
+title: 'Site Architecture and Deployment Guide'
+description: 'An explanation of the site architecture, build workflow, and deployment process using Hugo, the PaperMod theme, and GitHub Pages.'
+tags: ['Hugo', 'PaperMod', 'GitHub Pages', 'GitHub Actions', 'Site Architecture']
 categories: ['Tech']
 ShowToc: true
 TocOpen: true
 ---
 
-## はじめに
+## Introduction
 
-このページでは、**Key-2014.github.io**（このサイト）がどのように作られているかを解説します。
+This page explains how **Key-2014.github.io** (this site) is built.
 
-利用している技術スタック：
+Technology stack used:
 
-| カテゴリ | ツール |
+| Category | Tool |
 | --- | --- |
-| 静的サイトジェネレータ | [Hugo](https://gohugo.io/) |
-| テーマ | [PaperMod](https://github.com/adityatelange/hugo-PaperMod) |
-| ホスティング | [GitHub Pages](https://pages.github.com/) |
-| CI/CD | [GitHub Actions](https://docs.github.com/ja/actions) |
-| テーマ管理 | Git サブモジュール |
+| Static Site Generator | [Hugo](https://gohugo.io/) |
+| Theme | [PaperMod](https://github.com/adityatelange/hugo-PaperMod) |
+| Hosting | [GitHub Pages](https://pages.github.com/) |
+| CI/CD | [GitHub Actions](https://docs.github.com/en/actions) |
+| Theme Management | Git Submodule |
 
 ---
 
-## Hugo とは？
+## What is Hugo?
 
-[Hugo](https://gohugo.io/) は **Go 言語**で書かれた静的サイトジェネレータです。Markdown ファイルで記事を書くだけで、HTML/CSS/JS の静的サイトが自動生成されます。
+[Hugo](https://gohugo.io/) is a static site generator written in **Go**. By simply writing your articles in Markdown files, it automatically generates a complete HTML/CSS/JS static site.
 
-### Hugo を選んだ理由
+### Why choose Hugo?
 
-- ⚡ **ビルドが非常に高速**（数百ページでも数秒）
-- 📝 **Markdown で記事が書ける**（`.md` ファイルを置くだけ）
-- 🎨 **豊富なテーマ**が公開されている
-- 🔧 **設定が YAML/TOML で簡潔**
-- 🆓 **無料**、オープンソース
+- ⚡ **Lightning-fast builds** (hundreds of pages in seconds)
+- 📝 **Write in Markdown** (just drop `.md` files)
+- 🎨 **Abundant themes** available
+- 🔧 **Simple configuration** with YAML/TOML
+- 🆓 **Free** and open-source
 
 ---
 
-## PaperMod テーマ
+## PaperMod Theme
 
-このサイトで使用しているテーマは [**PaperMod**](https://github.com/adityatelange/hugo-PaperMod) です。
+The theme used for this site is [**PaperMod**](https://github.com/adityatelange/hugo-PaperMod).
 
-### PaperMod の特徴
+### PaperMod Features
 
-- 🌗 **ダーク/ライトモード自動切替** — OS のテーマに追従
-- 📖 **目次（Table of Contents）**の自動生成
-- 🔍 **全文検索**に対応
-- 📐 **レスポンシブデザイン** — PC でもスマホでも読みやすい
-- 🧭 **パンくずリスト**（Breadcrumbs）表示
-- 📋 **コードブロックのコピーボタン**
+- 🌗 **Auto Dark/Light mode switching** — follows OS theme
+- 📖 **Table of Contents (ToC)** auto-generation
+- 🔍 **Full-text search** support
+- 📐 **Responsive design** — easy to read on both PC and mobile
+- 🧭 **Breadcrumbs** display
+- 📋 **Copy buttons** for code blocks
 
-### テーマの導入方法
+### Theme Installation Method
 
-PaperMod は **Git サブモジュール** として管理しています：
+PaperMod is managed as a **Git submodule**:
 
 ```
 [submodule "themes/PaperMod"]
@@ -62,13 +62,13 @@ PaperMod は **Git サブモジュール** として管理しています：
   url = https://github.com/adityatelange/hugo-PaperMod.git
 ```
 
-これにより、テーマの更新も `git submodule update --remote` 一発で行えます。
+This allows for easy theme updates with a single command: `git submodule update --remote`.
 
 ---
 
-## サイトの設定（`hugo.yaml`）
+## Site Configuration (`hugo.yaml`)
 
-サイト全体の設定は `hugo.yaml` に記述されています：
+The global site settings are defined in `hugo.yaml`:
 
 ```yaml
 baseURL: https://Key-2014.github.io/
@@ -79,9 +79,9 @@ enableEmoji: true
 mainsections: ["post"]
 ```
 
-### メニュー設定
+### Menu Settings
 
-ナビゲーションメニューは `menu.main` で定義します：
+The navigation menu is defined under `menu.main`:
 
 ```yaml
 menu:
@@ -94,87 +94,87 @@ menu:
       weight: 3
 ```
 
-`weight` が小さいメニューほど左（先頭）に表示されます。
+Menus with a smaller `weight` appear further to the left (first).
 
-### パラメータ設定
+### Parameter Settings
 
-PaperMod テーマ固有の設定は `params` セクションに記述します：
+PaperMod-specific settings are written in the `params` section:
 
 ```yaml
 params:
-  env: production                # SEO メタタグを有効化
+  env: production                # Enables SEO meta tags
   description: "Writing about tech articles and daily events."
   author: "Key-2014"
-  defaultTheme: "auto"           # OS に合わせて自動切替
-  ShowPostNavLinks: true          # 前後の記事リンクを表示
-  ShowBreadCrumbs: true           # パンくずリストを表示
-  ShowCodeCopyButtons: true       # コードブロックにコピーボタン
-  ShowToc: true                   # 目次を表示
+  defaultTheme: "auto"           # Auto-switches based on OS
+  ShowPostNavLinks: true         # Shows next/prev post links
+  ShowBreadCrumbs: true          # Shows breadcrumbs
+  ShowCodeCopyButtons: true      # Copy buttons on code blocks
+  ShowToc: true                  # Shows Table of Contents
 ```
 
 ---
 
-## リポジトリの構成
+## Repository Structure
 
-```
+```text
 Key-2014.github.io/
 ├── .github/
 │   └── workflows/
-│       └── hugo.yaml            # GitHub Actions デプロイ設定
+│       └── hugo.yaml            # GitHub Actions deployment config
 ├── archetypes/
-│   └── default.md               # 新規記事のテンプレート
-├── assets/                      # SCSS や JS などのアセット
+│   └── default.md               # Template for new articles
+├── assets/                      # Assets like SCSS and JS
 ├── content/
-│   └── post/                    # 記事を置くディレクトリ
+│   └── post/                    # Directory for article files
 │       ├── site-architecture-guide.md
 │       ├── typst-template-guide.md
 │       └── web-app-dev-guide.md
-├── data/                        # データファイル
-├── i18n/                        # 多言語対応ファイル
-├── layouts/                     # カスタムレイアウト
-├── public/                      # ビルド出力（git 管理外）
-├── static/                      # 静的ファイル（画像等）
+├── data/                        # Data files
+├── i18n/                        # Multi-language support files
+├── layouts/                     # Custom layouts
+├── public/                      # Build output (ignored by Git)
+├── static/                      # Static files (images, etc.)
 ├── themes/
-│   └── PaperMod/                # テーマ（Git サブモジュール）
-├── hugo.yaml                    # サイト設定
-├── .gitmodules                  # サブモジュール定義
+│   └── PaperMod/                # Theme (Git submodule)
+├── hugo.yaml                    # Site configuration
+├── .gitmodules                  # Submodule definitions
 └── .gitignore
 ```
 
-### 主なディレクトリの役割
+### Key Directories
 
-| ディレクトリ | 役割 |
+| Directory | Purpose |
 | --- | --- |
-| `content/post/` | 記事の Markdown ファイルを置く場所 |
-| `static/` | 画像やファイルなど、そのまま公開される静的ファイル |
-| `layouts/` | テーマのレイアウトを上書きするカスタムテンプレート |
-| `archetypes/` | `hugo new` で新規記事を作成する際のテンプレート |
-| `themes/PaperMod/` | PaperMod テーマ本体（サブモジュール） |
-| `public/` | `hugo` コマンドで生成されるビルド出力 |
+| `content/post/` | Where article Markdown files are placed |
+| `static/` | Static files (like images) that are published as-is |
+| `layouts/` | Custom templates to override theme layouts |
+| `archetypes/` | Templates used when creating new articles via `hugo new` |
+| `themes/PaperMod/` | PaperMod theme core files (submodule) |
+| `public/` | Build output generated by the `hugo` command |
 
 ---
 
-## ビルド & デプロイの仕組み
+## Build & Deployment Process
 
-### 全体フロー
+### Overall Workflow
 
+```text
+Write Markdown
+     ↓
+git commit & push (to main branch)
+     ↓
+GitHub Actions triggers automatically
+     ↓
+Hugo builds the site
+     ↓
+Deploys to GitHub Pages
+     ↓
+Reflected on https://Key-2014.github.io/ 🎉
 ```
-Markdown を書く
-     ↓
-git commit & push (main ブランチ)
-     ↓
-GitHub Actions が自動起動
-     ↓
-Hugo がサイトをビルド
-     ↓
-GitHub Pages にデプロイ
-     ↓
-https://Key-2014.github.io/ に反映 🎉
-```
 
-### GitHub Actions ワークフロー
+### GitHub Actions Workflow
 
-`.github/workflows/hugo.yaml` で定義されたワークフローが、`main` ブランチへの push 時に自動実行されます：
+The workflow defined in `.github/workflows/hugo.yaml` runs automatically upon pushing to the `main` branch:
 
 ```yaml
 name: Build and deploy
@@ -182,84 +182,84 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:   # 手動トリガーも可能
+  workflow_dispatch:   # Manual trigger is also possible
 ```
 
-#### ビルドジョブの主な処理
+#### Build Job Execution
 
-1. **リポジトリのチェックアウト**（サブモジュール含む）
-2. **Go / Node.js / Dart Sass / Hugo のセットアップ**
-3. **Hugo でサイトをビルド**（`hugo --gc --minify`）
-4. **ビルド結果を GitHub Pages にアップロード**
+1. **Checkout Repository** (including submodules)
+2. **Setup Go / Node.js / Dart Sass / Hugo**
+3. **Build Site with Hugo** (`hugo --gc --minify`)
+4. **Upload Build Results to GitHub Pages**
 
-#### 使用しているバージョン
+#### Versions Used
 
-| ツール | バージョン |
+| Tool | Version |
 | --- | --- |
-| Hugo | 0.152.2（extended） |
+| Hugo | 0.152.2 (extended) |
 | Go | 1.25.3 |
 | Node.js | 22.20.0 |
 | Dart Sass | 1.93.2 |
 
-Hugo の **extended 版** を使用しているため、Sass/SCSS の処理もサポートされています。
+Because we are using the **extended version** of Hugo, Sass/SCSS processing is fully supported.
 
-### デプロイジョブ
+### Deployment Job
 
-ビルドが完了すると、`actions/deploy-pages` アクションが `public/` ディレクトリの内容を GitHub Pages にデプロイします。
+Once the build is complete, the `actions/deploy-pages` action deploys the contents of the `public/` directory to GitHub Pages.
 
 ---
 
-## ローカルでの開発
+## Local Development
 
-### 前提条件
+### Prerequisites
 
-- [Hugo（extended 版）](https://gohugo.io/installation/) がインストール済み
-- [Git](https://git-scm.com/) がインストール済み
+- [Hugo (extended version)](https://gohugo.io/installation/) installed
+- [Git](https://git-scm.com/) installed
 
-### リポジトリのクローン
+### Cloning the Repository
 
 ```bash
 git clone --recursive https://github.com/Key-2014/Key-2014.github.io.git
 cd Key-2014.github.io
 ```
 
-> `--recursive` を付けないと PaperMod テーマが取得されません。忘れた場合は：
+> If you forget the `--recursive` flag, the PaperMod theme will not be downloaded. To fix this:
 > ```bash
 > git submodule init
 > git submodule update
 > ```
 
-### ローカルサーバーの起動
+### Starting the Local Server
 
 ```bash
 hugo server -D
 ```
 
-- `-D` オプションで `draft: true` の下書き記事もプレビューできます
-- ブラウザで `http://localhost:1313/` にアクセス
-- ファイルを保存すると**自動でリロード**されます（ライブリロード）
+- The `-D` flag allows you to preview draft articles (`draft: true`).
+- Access the site in your browser at `http://localhost:1313/`.
+- The site will **automatically reload** when you save files (live reload).
 
-### ビルドのみ実行
+### Running a Build Only
 
 ```bash
 hugo --gc --minify
 ```
 
-`public/` ディレクトリに静的サイトが出力されます。
+This outputs the static site into the `public/` directory.
 
 ---
 
-## まとめ
+## Summary
 
-| 項目 | 内容 |
+| Item | Details |
 | --- | --- |
-| フレームワーク | Hugo（静的サイトジェネレータ） |
-| テーマ | PaperMod（サブモジュール管理） |
-| 記事の書き方 | `content/post/` に Markdown を置くだけ |
-| デプロイ | GitHub Actions が自動でビルド & デプロイ |
+| Framework | Hugo (Static Site Generator) |
+| Theme | PaperMod (managed as a submodule) |
+| Writing Articles | Simply place Markdown files in `content/post/` |
+| Deployment | Automated build & deploy via GitHub Actions |
 | URL | https://Key-2014.github.io/ |
 
-- **Markdown で記事を書く** → **push する** → **自動でサイトに反映** というシンプルなワークフロー
-- テーマや CI/CD の設定はすでに整っているので、記事を書くことに集中できます
+- The workflow is incredibly simple: **Write Markdown** → **Push** → **Automatically reflected on the site**.
+- Because the theme and CI/CD are already configured, you can focus entirely on writing content.
 
-次のページ「[ページの編集・カスタマイズガイド](/post/site-editing-guide/)」では、実際に記事を書いたりサイトをカスタマイズする方法を解説します ✏️
+In the next article, "[Content Editing Guide](/post/site-editing-guide/)", we will explain how to actually write articles and customize the site ✏️

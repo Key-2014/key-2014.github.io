@@ -1,89 +1,89 @@
 ---
 date: '2026-04-07'
 draft: false
-title: 'Typst テンプレートの紹介と使い方'
-description: '個人用 Typst テンプレート (Typst_Template) を Git サブモジュールとして導入し、レポートや課題を統一レイアウトで効率的に作成する方法を解説します。'
-tags: ['Typst', 'テンプレート', 'Git', 'サブモジュール', 'LaTeX代替']
+title: 'Introduction and Usage of Typst Template'
+description: 'Explains how to introduce a personal Typst template (Typst_Template) as a Git submodule to efficiently create reports and assignments with a unified layout.'
+tags: ['Typst', 'Template', 'Git', 'Submodule', 'LaTeX Alternative']
 categories: ['Tech']
 ShowToc: true
 TocOpen: true
 ---
 
-## はじめに
+## Introduction
 
-大学の授業で提出するレポートや課題を Typst で作成するとき、毎回同じフォーマット設定をコピペしていませんか？
+Are you tired of copy-pasting the same formatting settings every time you create a report or assignment using Typst for your university classes?
 
-年度や授業ごとにリポジトリを分けていると、テンプレートの修正が必要になったとき全リポジトリを手動で更新する羽目に…。
+If you separate repositories for each academic year or class, you'll end up manually updating all repositories whenever the template needs to be modified...
 
-そこで、**テンプレートを 1 つのリポジトリに集約し、Git サブモジュールとして使い回す** 仕組みを構築しました。
+To solve this, I've built a system that **consolidates the template into a single repository and reuses it as a Git submodule**.
 
-👉 リポジトリ: [**Typst_Template**](https://github.com/Key-2014/Typst_Template)
+👉 Repository: [**Typst_Template**](https://github.com/Key-2014/Typst_Template)
 
 ---
 
-## なぜサブモジュール？
+## Why a Submodule?
 
-| 方式 | メリット | デメリット |
+| Method | Pros | Cons |
 | --- | --- | --- |
-| コピペ | 手軽 | 修正時に全リポジトリを手動更新 |
-| Typst パッケージ | 公式の仕組み | 公開パッケージ登録が必要 |
-| **Git サブモジュール** | **一元管理・即反映** | Git の知識がやや必要 |
+| Copy & Paste | Easy to start | Manual updates required for all repos on modification |
+| Typst Package | Official mechanism | Requires registering a public package |
+| **Git Submodule** | **Centralized management, instant updates** | Requires some Git knowledge |
 
-サブモジュールなら、テンプレートを更新したあと各プロジェクトで `git submodule update --remote` を実行するだけで最新版に同期できます。
-
----
-
-## テンプレートの特徴
-
-### 🇯🇵 日本語最適化
-
-- フォント: **原ノ味明朝（Harano Aji Mincho）** + **New Computer Modern Math**
-- 段落スタイル: 両端揃え・字下げ対応
-- 言語設定: `lang: "ja"` で日本語ドキュメントとして最適化
-
-### 📐 数式サポート
-
-- `physica` パッケージによる物理学記法
-- `unify` パッケージで単位の統一表記（`qty`, `num`）
-- カスタム数式番号: 標準 `(1)` とセクション連動 `(1.2.3)` を切替可能
-
-### 📊 図表・作図
-
-- `cetz` パッケージによるベクター作図
-- `showybox` で装飾ボックス
-- `whalogen` で化学式表記
-- 図表キャプション: 自動で「図」「表」と日本語表記
+With a submodule, you only need to run `git submodule update --remote` in each project to sync with the latest version after updating the template.
 
 ---
 
-## インストール方法
+## Template Features
 
-### 1. サブモジュールとして追加
+### 🇯🇵 Japanese Optimization
 
-使用したいプロジェクトのルートディレクトリで以下を実行します：
+- Fonts: **Harano Aji Mincho** + **New Computer Modern Math**
+- Paragraph Style: Fully justified, indentation supported
+- Language Setting: Optimized for Japanese documents using `lang: "ja"`
+
+### 📐 Math Support
+
+- Physics notation via the `physica` package
+- Unified unit formatting with the `unify` package (`qty`, `num`)
+- Custom equation numbering: Switchable between standard `(1)` and section-linked `(1.2.3)`
+
+### 📊 Figures and Drawing
+
+- Vector drawing with the `cetz` package
+- Decorative boxes using `showybox`
+- Chemical formula notation with `whalogen`
+- Figure/Table captions: Automatically localized to Japanese (e.g., "図", "表")
+
+---
+
+## Installation
+
+### 1. Adding as a Submodule
+
+Run the following in the root directory of the project where you want to use it:
 
 ```bash
-# lib ディレクトリにサブモジュールとして追加
+# Add as a submodule in the lib directory
 mkdir -p lib
 git submodule add https://github.com/Key-2014/Typst_Template.git lib/my-templates
 ```
 
-### 2. 既存リポジトリをクローンする場合
+### 2. Cloning an Existing Repository
 
-サブモジュールを含むリポジトリをクローンする際は、`--recursive` オプションを付けます：
+When cloning a repository that already contains the submodule, use the `--recursive` flag:
 
 ```bash
-git clone --recursive https://github.com/<ユーザー名>/<リポジトリ名>.git
+git clone --recursive https://github.com/<username>/<repository-name>.git
 ```
 
-もしクローン後にサブモジュールの初期化を忘れた場合は：
+If you forgot to initialize the submodule after cloning:
 
 ```bash
 git submodule init
 git submodule update
 ```
 
-### 3. テンプレートを最新版に更新
+### 3. Updating the Template to the Latest Version
 
 ```bash
 git submodule update --remote lib/my-templates
@@ -93,144 +93,144 @@ git commit -m "Update Typst_Template to latest"
 
 ---
 
-## 使い方
+## Usage
 
-### 基本的な使い方
+### Basic Usage
 
-メインの `.typ` ファイルでテンプレートをインポートし、`project` 関数を適用します：
+Import the template in your main `.typ` file and apply the `project` function:
 
 ```typ
-// テンプレートライブラリのインポート
+// Import the template library
 #import "lib/my-templates/lib.typ": *
 
-// ドキュメント全体にテンプレートを適用
+// Apply the template to the entire document
 #show: project.with(
-  title: "レポートのタイトル",
-  author: "氏名",
-  student-id: "学生番号",
-  date: "2026年4月7日",
+  title: "Report Title",
+  author: "Your Name",
+  student-id: "Student ID",
+  date: "April 7, 2026",
 )
 
-= はじめに
-ここから本文を書き始めます。
-日本語フォントや数式環境がすでに設定済みです。
+= Introduction
+Start writing your content here.
+Japanese fonts and math environments are already configured.
 ```
 
-### `project` 関数の設定オプション
+### `project` Function Options
 
-| 引数 | 型 | デフォルト | 説明 |
+| Argument | Type | Default | Description |
 | --- | --- | --- | --- |
-| `title` | `content` | `""` | ドキュメントのタイトル |
-| `author` | `content` | `""` | 著者名 |
-| `student-id` | `content` | `""` | 学生番号 |
-| `date` | `content` | `none` | 日付 |
-| `textbook-numbering` | `boolean` | `false` | `true` で教科書スタイルの数式番号 |
-| `indent` | `boolean` | `true` | `false` で字下げを無効化 |
-| `heading-numbering` | `string` | `none` | 見出しの番号付け形式（例: `"1.1.1"`） |
-| `heading-supplement` | `content` | `none` | 見出しの補足テキスト |
+| `title` | `content` | `""` | Document title |
+| `author` | `content` | `""` | Author name |
+| `student-id` | `content` | `""` | Student ID |
+| `date` | `content` | `none` | Date |
+| `textbook-numbering` | `boolean` | `false` | Set to `true` for textbook-style equation numbering |
+| `indent` | `boolean` | `true` | Set to `false` to disable indentation |
+| `heading-numbering` | `string` | `none` | Heading numbering format (e.g., `"1.1.1"`) |
+| `heading-supplement` | `content` | `none` | Supplemental text for headings |
 
 ---
 
-## ユーティリティマクロ
+## Utility Macros
 
-`utils.typ` には、レポート執筆を効率化する便利なマクロが含まれています。
+`utils.typ` contains convenient macros to streamline report writing.
 
-### 数学・物理系
+### Math & Physics
 
-| マクロ | 説明 | 出力例 |
+| Macro | Description | Output Example |
 | --- | --- | --- |
-| `#combination(n, r)` | 組合せ記号 | ₙCᵣ |
-| `#permutation(n, r)` | 順列記号 | ₙPᵣ |
-| `#qed` | QED 記号（右寄せ） | ∎ |
-| `#lhs` / `#rhs` | 「(左辺)」/「(右辺)」 | (左辺) / (右辺) |
+| `#combination(n, r)` | Combination symbol | ₙCᵣ |
+| `#permutation(n, r)` | Permutation symbol | ₙPᵣ |
+| `#qed` | QED symbol (right-aligned) | ∎ |
+| `#lhs` / `#rhs` | "(LHS)" / "(RHS)" in Japanese | (左辺) / (右辺) |
 
-### ボックス系
+### Boxes
 
-| マクロ | 説明 | 用途 |
+| Macro | Description | Use Case |
 | --- | --- | --- |
-| `#crect(body)` | 中央揃え枠 | 定義や定理の強調 |
-| `#frect(body)` | 全幅枠 | 重要な式のハイライト |
-| `#ans(body)` | 解答ボックス | 最終回答の囲み |
+| `#crect(body)` | Centered frame | Highlighting definitions or theorems |
+| `#frect(body)` | Full-width frame | Highlighting important equations |
+| `#ans(body)` | Answer box | Enclosing the final answer |
 
-### 単位系
+### Units
 
 ```typ
-// 単位を正体（upright）で表示
+// Display units in upright font
 $10 #u("kg")$         // → 10 kg
 $5 #u("m/s^2")$       // → 5 m/s²
-$3 #u("m", b: true)$  // → 3 [m]  （括弧付き）
+$3 #u("m", b: true)$  // → 3 [m] (with brackets)
 ```
 
-### 数式タグ
+### Equation Tags
 
 ```typ
-// グローバルな数式カウンタに影響を与えずにタグを付ける
+// Add a tag without affecting the global equation counter
 #eqtag($E = m c^2$, "Einstein")
-// → 式の番号が (Einstein) と表示される
+// → The equation number will be displayed as (Einstein)
 ```
 
 ---
 
-## 数式番号のスタイル
+## Equation Numbering Styles
 
-### 標準スタイル（デフォルト）
+### Standard Style (Default)
 
 ```typ
-#show: project.with(title: "標準スタイル")
-// 数式番号: (1), (2), (3), ...
+#show: project.with(title: "Standard Style")
+// Equation numbers: (1), (2), (3), ...
 ```
 
-### セクション連動スタイル
+### Section-Linked Style
 
-見出し番号を設定すると、数式番号がセクションに連動します：
+By setting heading numbering, equation numbers will link to sections:
 
 ```typ
 #show: project.with(
-  title: "教科書スタイル",
+  title: "Textbook Style",
   heading-numbering: "1.1",
 )
-// 数式番号: (1.1), (1.2), (2.1), ...
+// Equation numbers: (1.1), (1.2), (2.1), ...
 ```
 
 ---
 
-## プロジェクト構成例
+## Project Structure Example
 
-実際にサブモジュールとして利用する場合のディレクトリ構成例です：
+Here is an example directory structure when using it as a submodule:
 
-```
+```text
 my-report/
 ├── lib/
-│   └── my-templates/        # ← Git サブモジュール (Typst_Template)
-│       ├── lib.typ           # メインテンプレート
-│       └── utils.typ         # ユーティリティマクロ
-├── main.typ                  # レポート本体
-├── figures/                  # 図表ファイル
-├── .gitmodules               # サブモジュール設定
+│   └── my-templates/        # ← Git Submodule (Typst_Template)
+│       ├── lib.typ           # Main template
+│       └── utils.typ         # Utility macros
+├── main.typ                  # Main report file
+├── figures/                  # Figures and images
+├── .gitmodules               # Submodule configuration
 └── README.md
 ```
 
 ---
 
-## 含まれるパッケージ一覧
+## Included Packages
 
-テンプレートに同梱されている Typst Preview パッケージ：
+List of Typst Preview packages bundled with the template:
 
-| パッケージ | バージョン | 用途 |
+| Package | Version | Purpose |
 | --- | --- | --- |
-| [physica](https://typst.app/universe/package/physica) | 0.9.7 | 物理学記法（偏微分、ブラケット等） |
-| [unify](https://typst.app/universe/package/unify) | 0.7.1 | SI 単位の統一表記 |
-| [cetz](https://typst.app/universe/package/cetz) | 0.4.2 | ベクター作図 |
-| [showybox](https://typst.app/universe/package/showybox) | 2.0.4 | 装飾ボックス |
-| [whalogen](https://typst.app/universe/package/whalogen) | 0.3.0 | 化学式表記 |
+| [physica](https://typst.app/universe/package/physica) | 0.9.7 | Physics notation (partial derivatives, bra-kets, etc.) |
+| [unify](https://typst.app/universe/package/unify) | 0.7.1 | Unified SI unit formatting |
+| [cetz](https://typst.app/universe/package/cetz) | 0.4.2 | Vector drawing |
+| [showybox](https://typst.app/universe/package/showybox) | 2.0.4 | Decorative boxes |
+| [whalogen](https://typst.app/universe/package/whalogen) | 0.3.0 | Chemical formula notation |
 
 ---
 
-## まとめ
+## Summary
 
-- **Typst_Template** は、日本語レポート作成に必要な設定をすべて詰め込んだテンプレート
-- **Git サブモジュール** として導入すれば、複数プロジェクトで一元管理できる
-- テンプレートの更新は `git submodule update --remote` 一発で反映
-- `project` 関数の引数で、レイアウトや数式番号スタイルを柔軟にカスタマイズ可能
+- **Typst_Template** is a template packed with all necessary settings for writing Japanese reports.
+- By introducing it as a **Git submodule**, you can centrally manage it across multiple projects.
+- Template updates can be reflected instantly with `git submodule update --remote`.
+- You can flexibly customize the layout and equation numbering styles using the arguments of the `project` function.
 
-テンプレートのソースコードや最新情報は [GitHub リポジトリ](https://github.com/Key-2014/Typst_Template) をご覧ください 📄
+For source code and the latest information, please visit the [GitHub Repository](https://github.com/Key-2014/Typst_Template) 📄
